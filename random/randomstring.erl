@@ -12,11 +12,12 @@
 exec(_, _, 0)->[];
 exec(Chars, Num, Count)->
 	I = rand:uniform(Num),
-	[lists:nth(I, Chars)] ++ exec(Chars, Num, Count-1).
+	Rnum = lists:nth(I, Chars),
+	[Rnum] ++ exec(Chars, Num, Count-1).
 
 create(N, Chars)->
 	Num = length(Chars),
-	exec(Chars, Num, N).
+	io:format(exec(Chars, Num, list_to_integer(hd(N)))).
 
 num(N, C)->	create(N, "0123456789"++C).
 num(N)->num(N, []).
