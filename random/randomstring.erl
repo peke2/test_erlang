@@ -13,7 +13,10 @@ exec(_, _, 0)->[];
 exec(Chars, Num, Count)->
 	I = rand:uniform(Num),
 	Rnum = lists:nth(I, Chars),
-	[Rnum] ++ exec(Chars, Num, Count-1).
+	Escaped = [Rnum] ++ if Rnum == "~" -> "~";
+		true -> []
+	end,
+	[Escaped] ++ exec(Chars, Num, Count-1).
 
 create(N, Chars)->
 	Num = length(Chars),
