@@ -1,12 +1,20 @@
 -module(arg).
--export([hello/0, one/1, add/2, add_arg/1, say/1]).
+-export([hello/0, one/1, add/1, add_arg/1, say/1]).
 
 
 hello()->io:format("Hello").
 
 one(A)->io:format("~s~n",A).
 
-add(A, B)->io:format("~s~n", [integer_to_list(A+B)]).
+
+% シェルから実行する際の引数は以下の形で渡す
+% erl -noshell -run arg add 122 518 -s init stop
+% 引数の部分は文字列の配列で渡される
+% ["122","518"]
+add(A)->
+	[B | C] = A,
+	D = list_to_integer(B) + list_to_integer(hd(C)),
+	io:format("~s~n", [integer_to_list(D)]).
 
 add_arg(A)->
 %	io:format("~s~n", [[list_to_integer(hd(A))+5]]).
